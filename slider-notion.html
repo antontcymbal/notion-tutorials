@@ -8,6 +8,7 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
 
     * {
       box-sizing: border-box;
@@ -118,6 +119,59 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
+    /* Click here text */
+    .click-text {
+      position: absolute;
+      right: -90px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #808080;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    /* Pulsating animation for next button */
+    #next {
+      position: relative;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    #next::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border: 2px solid #808080;
+      border-radius: 50%;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+      }
+    }
+
     @media (max-width: 768px) {
       .mockup-container {
         width: 300px;
@@ -127,6 +181,11 @@
       .buttons button {
         padding: 8px 10px;
         font-size: 12px;
+      }
+
+      .click-text {
+        font-size: 12px;
+        right: -75px;
       }
     }
   </style>
@@ -153,7 +212,10 @@
     <!-- Navigation buttons -->
     <div class="buttons">
       <button id="prev"><i class="fas fa-arrow-left"></i></button>
-      <button id="next"><i class="fas fa-arrow-right"></i></button>
+      <button id="next">
+        <i class="fas fa-arrow-right"></i>
+        <span class="click-text">click here</span>
+      </button>
     </div>
   </div>
 
@@ -161,9 +223,6 @@
     const slides = document.querySelectorAll(".slide");
     const nextButton = document.getElementById("next");
     const prevButton = document.getElementById("prev");
-    const auto = true;
-    const intervalTime = 5000;
-    let slideInterval;
 
     const nextSlide = () => {
       const current = document.querySelector(".current");
@@ -187,23 +246,11 @@
 
     nextButton.addEventListener("click", () => {
       nextSlide();
-      if (auto) {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, intervalTime);
-      }
     });
     
     prevButton.addEventListener("click", () => {
       prevSlide();
-      if (auto) {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, intervalTime);
-      }
     });
-
-    if (auto) {
-      slideInterval = setInterval(nextSlide, intervalTime);
-    }
   </script>
 </body>
 
