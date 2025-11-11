@@ -3,122 +3,160 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Full-Screen Responsive Image Slider</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider for Notion - iPhone Mockup</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
-  <link rel="stylesheet" href="./style.css">
-<style>
-  @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  font-family: "Lexend", sans-serif;
-  background-color: #362a2b;
-  color: #e5ebf3;
-}
+    body {
+      font-family: "Lexend", sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-.slider {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+    .mockup-container {
+      position: relative;
+      width: 375px;
+      height: 812px;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
 
-.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out;
-}
+    /* iPhone frame overlay */
+    .iphone-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      background-image: url('https://res.cloudinary.com/do9izm8xv/image/upload/v1762868021/iphone-frame_jy9rxs.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
 
-.slide.current {
-  opacity: 1;
-}
+    /* Slider container - positioned to fit inside iPhone screen */
+    .slider {
+      position: absolute;
+      top: 3%;
+      left: 6.5%;
+      width: 87%;
+      height: 93.5%;
+      overflow: hidden;
+      border-radius: 40px;
+    }
 
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.slide:first-child {
-  background: url("1.png") no-repeat
-    center top/cover;
-}
+    .slide.current {
+      opacity: 1;
+    }
 
-.slide:nth-child(2) {
-  background: url("2.png") no-repeat
-    center top/cover;
-}
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
 
-.slide:nth-child(3) {
-  background: url("3.png") no-repeat
-    center top/cover;
-}
+    /* Navigation buttons */
+    .buttons {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(375px + 120px);
+      max-width: calc(90vw + 120px);
+      display: flex;
+      justify-content: space-between;
+      z-index: 20;
+      pointer-events: none;
+    }
 
+    .buttons button {
+      pointer-events: all;
+      border: 2px solid #808080;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #808080;
+      cursor: pointer;
+      padding: 12px 15px;
+      border-radius: 50%;
+      outline: none;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.buttons button#prev {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-}
+    .buttons button:hover {
+      background-color: #808080;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-.buttons button#next {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-}
+    @media (max-width: 768px) {
+      .mockup-container {
+        width: 300px;
+        height: 650px;
+      }
 
-.buttons button {
-  border: 2px solid #e5ebf3;
-  background-color: transparent;
-  color: #e5ebf3;
-  cursor: pointer;
-  padding: 13px 15px;
-  border-radius: 50%;
-  outline: none;
-}
-
-.buttons button:hover {
-  background-color: #e5ebf3;
-  color: #362a2b;
-}
-
-@media (min-width: 640px) and (min-height: 640px) {
-  .slide .content {
-    bottom: 70px;
-    left: -600px;
-    width: 600px;
-    padding: 2rem;
-    line-height: 1.6;
-  }
-
-  .slide .content h1 {
-    font-size: 2rem;
-  }
-
-  .slide.current .content {
-    transform: translateX(600px);
-  }
-}
-</style>
+      .buttons button {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- partial:index.partial.html -->
-  <div class="slider">
-    <div class="slide current"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
+  <div class="mockup-container">
+    <!-- iPhone frame overlay -->
+    <div class="iphone-frame"></div>
+    
+    <!-- Slider inside the phone screen -->
+    <div class="slider">
+      <div class="slide current">
+        <img src="https://res.cloudinary.com/do9izm8xv/image/upload/v1695746771/App%20Images/Path%20images/Subtle_system_ouoizr_iab8p4.webp" alt="Subtle System">
+      </div>
+      <div class="slide">
+        <img src="https://res.cloudinary.com/do9izm8xv/image/upload/v1695761191/App%20Images/Path%20images/Step%203:%20The%20Subtle%20Sytem/Subtle_System_ysi3zh.jpg" alt="Subtle System Diagram">
+      </div>
+      <div class="slide">
+        <img src="https://res.cloudinary.com/do9izm8xv/image/upload/v1728040296/Step_1.3_Kundalini_2_zc9ct7.jpg" alt="Kundalini">
+      </div>
+    </div>
+    
+    <!-- Navigation buttons -->
+    <div class="buttons">
+      <button id="prev"><i class="fas fa-arrow-left"></i></button>
+      <button id="next"><i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
 
-  </div>
-  <div class="buttons">
-    <button id="prev"><i class="fas fa-arrow-left"></i></button>
-    <button id="next"><i class="fas fa-arrow-right"></i></button>
-  </div>
-  <!-- partial -->
   <script>
     const slides = document.querySelectorAll(".slide");
     const nextButton = document.getElementById("next");
@@ -154,6 +192,7 @@ body {
         slideInterval = setInterval(nextSlide, intervalTime);
       }
     });
+    
     prevButton.addEventListener("click", () => {
       prevSlide();
       if (auto) {
@@ -165,9 +204,7 @@ body {
     if (auto) {
       slideInterval = setInterval(nextSlide, intervalTime);
     }
-
   </script>
-
 </body>
 
 </html>
