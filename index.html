@@ -227,6 +227,8 @@
     const slides = document.querySelectorAll(".slide");
     const nextButton = document.getElementById("next");
     const prevButton = document.getElementById("prev");
+    const clickText = document.querySelector(".click-text");
+    let hasClicked = false;
 
     const nextSlide = () => {
       const current = document.querySelector(".current");
@@ -250,6 +252,13 @@
 
     nextButton.addEventListener("click", () => {
       nextSlide();
+      
+      // Remove animation and text after first click
+      if (!hasClicked) {
+        nextButton.style.animation = 'none';
+        clickText.style.display = 'none';
+        hasClicked = true;
+      }
     });
     
     prevButton.addEventListener("click", () => {
