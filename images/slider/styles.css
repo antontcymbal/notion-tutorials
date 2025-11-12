@@ -1,0 +1,656 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Lexend", sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  gap: 60px;
+  padding-top: 120px;
+}
+
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.mockup-container {
+  position: relative;
+  width: 340px;
+  height: 736px;
+  max-width: 90vw;
+  max-height: 80vh;
+  z-index: 1;
+}
+
+/* iPhone frame overlay */
+.iphone-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  background-image: url('https://res.cloudinary.com/do9izm8xv/image/upload/v1762868021/iphone-frame_jy9rxs.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Slider container - positioned to fit inside iPhone screen */
+.slider {
+  position: absolute;
+  top: 3%;
+  left: 6.5%;
+  width: 87%;
+  height: 93.5%;
+  overflow: hidden;
+  border-radius: 40px;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide.current {
+  opacity: 1;
+}
+
+.slide img,
+.slide video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Navigation buttons */
+.buttons-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 200px);
+  display: flex;
+  justify-content: space-between;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.next-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.buttons-wrapper button {
+  position: relative;
+  pointer-events: all;
+  border: 2px solid #808080;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #808080;
+  cursor: pointer;
+  padding: 12px 15px;
+  border-radius: 50%;
+  outline: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons-wrapper button:hover {
+  background-color: #808080;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Click here text */
+.click-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -46px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #808080;
+  text-align: center;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+/* Pulsating animation for next button */
+#next {
+  position: relative;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+#next::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 2px solid #808080;
+  border-radius: 50%;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+#next.first-slide::before {
+  border-color: #9ACD32;
+}
+
+/* Remove animation when clicked */
+#next.clicked {
+  animation: none;
+}
+
+#next.clicked::before {
+  display: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Slide description text */
+.slide-description {
+  max-width: 340px;
+  font-family: 'Raleway', sans-serif;
+  color: #333333;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.slide-description h2 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 24px 0;
+  text-align: left;
+}
+
+.slide-description p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.8;
+  text-align: left;
+}
+
+/* Finger tap animation */
+.tap-indicator {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(128, 128, 128, 0.3);
+  border: 3px solid rgba(128, 128, 128, 0.6);
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+}
+
+.tap-indicator.active {
+  opacity: 1;
+}
+
+.tap-indicator.tapping {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-color: rgba(128, 128, 128, 0.8);
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+@keyframes tap-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Timeline */
+.timeline-wrapper {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(340px + 80px + 340px);
+  max-width: calc(100vw - 200px);
+  z-index: 5;
+}
+
+.timeline-container {
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+
+.timeline-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Gradient fade indicators */
+.timeline-gradient-left,
+.timeline-gradient-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-gradient-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.timeline-gradient-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.timeline-wrapper.has-scroll-left .timeline-gradient-left {
+  opacity: 1;
+}
+
+.timeline-wrapper.has-scroll-right .timeline-gradient-right {
+  opacity: 1;
+}
+
+.timeline-track {
+  display: flex;
+  gap: 0;
+  position: relative;
+  padding: 0;
+  transition: none;
+  cursor: grab;
+  user-select: none;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.timeline-track.dragging {
+  cursor: grabbing;
+}
+
+.timeline-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.timeline-segment.revealed {
+  opacity: 1;
+}
+
+.timeline-segment.active {
+  opacity: 1;
+}
+
+.timeline-segment:hover {
+  opacity: 1;
+}
+
+.timeline-label {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 8px;
+}
+
+.stage-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333333;
+  line-height: 1.3;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.timeline-segment.active .stage-title {
+  color: #333333;
+  font-weight: 700;
+}
+
+/* Active title colors matching stage functions */
+.timeline-segment[data-stage="intro"].active .stage-title {
+  color: #4A90A4;
+}
+
+.timeline-segment[data-stage="preparation"].active .stage-title {
+  color: #6B9F6B;
+}
+
+.timeline-segment[data-stage="meditation"].active .stage-title {
+  color: #D88B7F;
+}
+
+.timeline-segment[data-stage="additional"].active .stage-title {
+  color: #C77BC7;
+}
+
+.timeline-segment[data-stage="outro"].active .stage-title {
+  color: #D4AF37;
+}
+
+.optional-text {
+  font-size: 10px;
+  font-style: italic;
+  color: #999999;
+  font-weight: 400;
+}
+
+.timeline-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #E0E0E0;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+  margin: 0;
+}
+
+.timeline-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #B8D4D9;
+  border-radius: 0;
+  transition: width 0.3s ease;
+}
+
+/* Stage colors - organized by function */
+/* Intro stages (opening/warmup) */
+.timeline-segment[data-stage="intro"] .timeline-bar::before {
+  background-color: #B8D4D9;
+}
+
+/* Preparation stages (setup, optional activities) */
+.timeline-segment[data-stage="preparation"] .timeline-bar::before {
+  background-color: #A8D5A8;
+}
+
+/* Main meditation stages (core practice) */
+.timeline-segment[data-stage="meditation"] .timeline-bar::before {
+  background-color: #E8A398;
+}
+
+/* Additional/optional stages (extra activities) */
+.timeline-segment[data-stage="additional"] .timeline-bar::before {
+  background-color: #DDA0DD;
+}
+
+/* Outro stages (closing, reflection) */
+.timeline-segment[data-stage="outro"] .timeline-bar::before {
+  background-color: #FFD9A0;
+}
+
+.timeline-segment.revealed .timeline-bar::before,
+.timeline-segment.active .timeline-bar::before {
+  width: 100%;
+}
+
+.timeline-segment.active .timeline-bar {
+  height: 6px;
+}
+
+.timeline-duration {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #666666;
+  padding: 0 8px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #666666;
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: 2px solid #ffffff;
+}
+
+@media (max-width: 1200px) {
+  .content-wrapper {
+    gap: 40px;
+  }
+
+  .slide-description {
+    max-width: 250px;
+  }
+
+  .slide-description h2 {
+    font-size: 24px;
+  }
+
+  .slide-description p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    gap: 16px;
+    padding: 100px 16px 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    position: relative;
+  }
+
+  .mockup-container {
+    width: min(280px, calc(100% - 100px));
+    aspect-ratio: 375 / 812;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .buttons-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vw - 32px);
+    display: flex;
+    justify-content: space-between;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .buttons-wrapper button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 14px;
+    pointer-events: all;
+  }
+
+  .next-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .click-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -34px;
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .slide-description {
+    max-width: 100%;
+    width: 100%;
+    padding: 0 16px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .slide-description h2 {
+    font-size: 16px;
+    text-align: center;
+    margin: 0 0 8px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .slide-description p {
+    font-size: 13px;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Timeline mobile */
+  .timeline-wrapper {
+    top: 20px;
+    width: calc(100vw - 32px);
+    max-width: 100%;
+  }
+
+  .timeline-gradient-left,
+  .timeline-gradient-right {
+    width: 40px;
+  }
+
+  .timeline-track {
+    justify-content: flex-start;
+    padding: 0;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+
+  .timeline-segment {
+    padding: 0;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+
+  .timeline-label {
+    margin-top: 6px;
+    padding: 0 6px;
+  }
+
+  .stage-title {
+    font-size: 10px;
+  }
+
+  .optional-text {
+    font-size: 9px;
+  }
+
+  .timeline-bar {
+    height: 5px;
+  }
+
+  .timeline-duration {
+    font-size: 9px;
+    margin-top: 3px;
+    padding: 0 6px;
+    height: 16px;
+    line-height: 16px;
+  }
+
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    right: -4px;
+    border-width: 1.5px;
+  }
+}
