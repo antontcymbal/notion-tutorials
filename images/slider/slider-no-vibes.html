@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider for Notion - iPhone Mockup (No Vibes)</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+  <link rel='stylesheet' href='styles.css'>
+</head>
+
+<body>
+  <div class="content-wrapper">
+    <!-- Slide description text -->
+    <div class="slide-description">
+      <h2 id="description-title">User opens their phone in the morning</h2>
+      <p id="description-paragraph">They decide to proceed with "select meditation" button on the home screen</p>
+    </div>
+
+    <div class="mockup-container">
+      <!-- iPhone frame overlay -->
+      <div class="iphone-frame"></div>
+
+      <!-- Slider inside the phone screen -->
+      <div class="slider">
+        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%" data-timeline-label="Start" data-timeline-duration="" data-timeline-stage="intro">
+          <img src="slider-screens/1.webp" alt="Slide 1">
+        </div>
+        <div class="slide" data-title="They select personalised meditation" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%" data-timeline-label="Select &quot;Personilised&quot;" data-timeline-duration="" data-timeline-stage="intro">
+          <img src="slider-screens/2.webp" alt="Slide 2">
+        </div>
+        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / <br>lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Emoji selection" data-timeline-duration="" data-timeline-stage="preparation">
+          <img src="slider-screens/3.webp" alt="Slide 3">
+        </div>
+        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%" data-timeline-label="Should not be visible!" data-timeline-duration="12-15 min" data-timeline-stage="preparation" data-include-timeline="no">
+          <img src="slider-screens/4.webp" alt="Slide 4">
+        </div>
+        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%" data-timeline-label="Duration, and music." data-timeline-duration="" data-timeline-stage="preparation">
+          <img src="slider-screens/5.webp" alt="Slide 5">
+        </div>
+        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="88%" data-timeline-label="Foot soak offer" data-timeline-duration="" data-timeline-stage="preparation">
+          <img src="slider-screens/6.webp" alt="Slide 6">
+        </div>
+        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="95%" data-timeline-label="Vibes check<br> - heads up" data-timeline-duration="" data-timeline-stage="preparation">
+          <img src="slider-screens/7.webp" alt="Slide 7">
+        </div>
+        <div class="slide" data-title="Meditation now begins!" data-description="This part of the meditation is based on the emoji they selected - the state of our seeker." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Meditation starts" data-timeline-duration="15-20 min" data-timeline-width="320px" data-timeline-stage="meditation">
+          <video src="slider-screens/8.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Knowledge Card" data-description="Features a talk by Shri Mataji and a summary of all the chakras covered during the session." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Knowledge Card" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/21.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Challenge description" data-description="They can choose to participate in a challenge, such as morning meditations or other themed practices." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Challenge" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/22.webm" playsinline></video>
+        </div>
+      </div>
+      <!-- Tap indicator -->
+      <div class="tap-indicator"></div>
+      <!-- Play/Pause indicator -->
+      <div class="play-pause-indicator"></div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="buttons-wrapper">
+      <button id="prev"><i class="fas fa-arrow-left"></i></button>
+      <div class="next-wrapper">
+        <button id="next">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        <span class="click-text">click to<br>proceed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-wrapper">
+    <div class="timeline-gradient-left"></div>
+    <div class="timeline-gradient-right"></div>
+    <div class="timeline-container">
+      <div class="timeline-track" id="timeline-track">
+        <!-- Timeline segments will be dynamically generated -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
