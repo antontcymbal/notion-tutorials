@@ -98,6 +98,30 @@ Each slide is defined by a `<div class="slide">` element with data attributes th
   - `"outro"` - Light gold (#FFD9A0) - Closing and reflection
 - **Effect:** Colors both the timeline bar fill and active text color
 
+#### `data-include-timeline` (Optional)
+- **Type:** String ("yes" or "no")
+- **Purpose:** Control whether this slide appears in the timeline
+- **Default:** "yes" (or if attribute is omitted)
+- **Options:**
+  - `"yes"` or omitted - Slide appears in timeline as normal segment
+  - `"no"` - Slide is excluded from timeline; no segment created
+- **Behavior when set to "no":**
+  - No timeline segment is created for this slide
+  - When navigating to this slide, timeline stays on the previous active segment
+  - Useful for transition screens or explanatory content that shouldn't be represented as separate stages
+- **Example use case:** You have a 10-second explanation video between meditation stages - you want users to see it, but don't want it as a separate timeline segment
+- **Implementation:** Script maintains a `slideToSegmentMap` that maps slide indices to timeline segments (or `null` if excluded)
+- **Example:**
+  ```html
+  <div class="slide"
+    data-include-timeline="no"
+    data-title="Transition screen"
+    data-description="Brief explanation..."
+    ...>
+    <video src="transition.webm" loop playsinline></video>
+  </div>
+  ```
+
 ---
 
 ## Timeline Auto-sizing Logic

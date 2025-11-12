@@ -32,7 +32,8 @@
           data-timeline-label="Timeline Label"
           data-timeline-duration="2 min"
           data-timeline-width="150px"
-          data-timeline-stage="meditation">
+          data-timeline-stage="meditation"
+          data-include-timeline="yes">
           <img src="slider-screens/image.webp" alt="Slide description">
         </div>
 
@@ -61,8 +62,12 @@
           data-timeline-label="Timeline Label"
           data-timeline-duration="2 min"
           data-timeline-stage="meditation">
-          <video src="slider-screens/video.webm" loop playsinline></video>
+          <video src="slider-screens/video.webm" playsinline></video>
         </div>
+
+        Video behavior:
+        - Without "loop" attribute: Video plays once, then automatically advances to next slide
+        - With "loop" attribute: Video loops continuously until user manually advances
 
         Timeline data attributes:
         - data-timeline-label: Text shown in the timeline for this slide (supports HTML like <br> for line breaks)
@@ -74,6 +79,9 @@
           * "meditation" - Light coral (#E8A398) - Core meditation practice
           * "additional" - Light plum (#DDA0DD) - Extra/optional activities
           * "outro" - Light gold (#FFD9A0) - Closing, reflection
+        - data-include-timeline: Control timeline visibility (default: "yes")
+          * "yes" or omit - Slide appears in timeline as normal
+          * "no" - Slide is excluded from timeline; timeline stays on previous segment when this slide is active
       -->
       <div class="slider">
         <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%" data-timeline-label="Start" data-timeline-duration="" data-timeline-stage="intro">
@@ -82,30 +90,68 @@
         <div class="slide" data-title="They select personalised meditation" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%" data-timeline-label="Select &quot;Personilised&quot;" data-timeline-duration="" data-timeline-stage="intro">
           <img src="slider-screens/2.webp" alt="Slide 2">
         </div>
-        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / <br>lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
+        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / <br>lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Emoji selection" data-timeline-duration="" data-timeline-stage="preparation">
           <img src="slider-screens/3.webp" alt="Slide 3">
         </div>
-        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
+        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%" data-timeline-label="Should not be visible!" data-timeline-duration="12-15 min" data-timeline-stage="preparation" data-include-timeline="no">
           <img src="slider-screens/4.webp" alt="Slide 4">
         </div>
-        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%" data-timeline-label="Main meditation (emoji-based)" data-timeline-duration="2 min" data-timeline-stage="meditation">
+        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%" data-timeline-label="Duration, and music." data-timeline-duration="" data-timeline-stage="preparation">
           <img src="slider-screens/5.webp" alt="Slide 5">
         </div>
-        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Main meditation (emoji-based)" data-timeline-duration="2 min" data-timeline-stage="meditation">
+        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Foot soak offer" data-timeline-duration="" data-timeline-stage="preparation">
           <img src="slider-screens/6.webp" alt="Slide 6">
         </div>
-        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Vibes check: &quot;what do you feel?&quot;" data-timeline-duration="2-7 min" data-timeline-stage="meditation">
+        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Vibes check<br> - heads up" data-timeline-duration="" data-timeline-stage="preparation">
           <img src="slider-screens/7.webp" alt="Slide 7">
         </div>
-        <div class="slide" data-title="Meditation now begins!" data-description="This part of the meditation is based on the emoji they selected - the state of our seeker." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Vibes check: &quot;what do you feel?&quot;" data-timeline-duration="2-7 min" data-timeline-stage="meditation">
-          <video src="slider-screens/8.webm" loop playsinline></video>
+        <div class="slide" data-title="Meditation now begins!" data-description="This part of the meditation is based on the emoji they selected - the state of our seeker." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Meditation starts" data-timeline-duration="12-15 min" data-timeline-width="320px" data-timeline-stage="meditation">
+          <video src="slider-screens/8.webm" playsinline></video>
         </div>
-        <div class="slide" data-title="Now we ask what the seeker is feeling on their hands" data-description="For them it appears like a continuation of the meditation, not a separate part of the experience." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Meditation bits based on user's selection" data-timeline-duration="" data-timeline-stage="meditation">
-          <video src="slider-screens/9.webm" loop playsinline></video>
+        <div class="slide" data-title="Now we ask what the seeker is feeling on their hands" data-description="For them it appears like a continuation of the meditation, not a separate part of the experience." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Vibes check (hands)" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/10.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="We ask what users feel in their hands" data-description="Users should remain in meditation. At this point, they most likely don't even realize that something has changed on the screen." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/11.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="They can skip the vibes check" data-description="If users don't want to do this step, or if they don't feel any vibrations yet, they can skip it." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/12.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="We ask what they feel in their hands" data-description="We begin by asking, &quot;What do you feel on your left hand?&quot; — going hand by hand." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/13.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="They indicate feeling cool" data-description="We will use this feedback to customize the meditation." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/14.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Now we check the fingers" data-description="" data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/15.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Moving to the right hand" data-description="" data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/16.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Checking fingers on the right hand" data-description="" data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/17.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Some context" data-description="We explain these sensations to help adjust the meditation accordingly." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/18.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="We offer a meditation focused on the chakras they selected" data-description="The meditation duration depends on how many chakras they selected." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-include-timeline="no">
+          <video src="slider-screens/19.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Meditation continues on the chakras they selected" data-description="" data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Chakra meditation" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/20.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Knowledge Card" data-description="Features a talk by Shri Mataji and a summary of all the chakras covered during the session." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Knowledge Card" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/21.webm" playsinline></video>
+        </div>
+        <div class="slide" data-title="Challenge description" data-description="They can choose to participate in a challenge, such as morning meditations or other themed practices." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Challenge" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/22.webm" playsinline></video>
         </div>
       </div>
       <!-- Tap indicator -->
       <div class="tap-indicator"></div>
+      <!-- Play/Pause indicator -->
+      <div class="play-pause-indicator"></div>
     </div>
 
     <!-- Navigation buttons -->

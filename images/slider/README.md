@@ -61,6 +61,7 @@ Control timeline appearance through data attributes:
 - **data-timeline-duration** - Duration text shown below label
 - **data-timeline-width** - Optional custom width (e.g., `"200px"`)
 - **data-timeline-stage** - Color theme: `intro`, `preparation`, `meditation`, `additional`, `outro`
+- **data-include-timeline** - Set to `"no"` to exclude slide from timeline (default: `"yes"`)
 
 ### Stage Colors
 

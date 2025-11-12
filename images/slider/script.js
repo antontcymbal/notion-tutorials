@@ -7,9 +7,12 @@ const descriptionParagraph = document.getElementById("description-paragraph");
 const tapIndicator = document.querySelector(".tap-indicator");
 const slider = document.querySelector(".slider");
 const timelineTrack = document.getElementById("timeline-track");
+const playPauseIndicator = document.querySelector(".play-pause-indicator");
 let isAnimating = false;
 let currentAudio = null;
 let timelineSegments = [];
+let slideToSegmentMap = new Map(); // Maps slide index to timeline segment (or null if excluded)
+let playPauseTimeout = null;
 
 // Parse duration string to get relative size
 const getDurationWeight = (duration) => {
@@ -31,8 +34,19 @@ const getDurationWeight = (duration) => {
 // Generate timeline segments dynamically based on slides
 const initializeTimeline = () => {
   timelineTrack.innerHTML = '';
+  slideToSegmentMap.clear();
+
+  let lastSegment = null; // Track last created segment for dot placement
 
   slides.forEach((slide, index) => {
+    // Check if this slide should be included in timeline (default: yes)
+    const includeInTimeline = slide.getAttribute('data-include-timeline') !== 'no';
+
+    if (!includeInTimeline) {
+      slideToSegmentMap.set(index, null); // Mark as excluded
+      return; // Skip creating timeline segment for this slide
+    }
+
     // Read timeline data from slide data attributes
     const label = slide.getAttribute('data-timeline-label') || slide.getAttribute('data-title') || `Slide ${index + 1}`;
     const duration = slide.getAttribute('data-timeline-duration') || '';
@@ -46,13 +60,6 @@ const initializeTimeline = () => {
 
     const bar = document.createElement('div');
     bar.className = 'timeline-bar';
-
-    // Add dot separator on the bar after each segment except the last
-    if (index < slides.length - 1) {
-      const dot = document.createElement('div');
-      dot.className = 'timeline-dot';
-      bar.appendChild(dot);
-    }
 
     segment.appendChild(bar);
 
@@ -88,6 +95,16 @@ const initializeTimeline = () => {
     }
 
     segment.style.flexShrink = '0';
+
+    // Add dot to previous segment if this isn't the first one
+    if (lastSegment) {
+      const dot = document.createElement('div');
+      dot.className = 'timeline-dot';
+      lastSegment.querySelector('.timeline-bar').appendChild(dot);
+    }
+
+    lastSegment = segment;
+    slideToSegmentMap.set(index, segment); // Map slide index to segment
   });
 
   timelineSegments = document.querySelectorAll('.timeline-segment');
@@ -97,6 +114,8 @@ const initializeTimeline = () => {
 const stopSlideMedia = (slide) => {
   const video = slide.querySelector('video');
   if (video) {
+    // Remove ended event listener to prevent memory leaks
+    video.removeEventListener('ended', handleVideoEnded);
     video.pause();
     video.muted = true; // Ensure audio is muted when stopping
     video.currentTime = 0;
@@ -117,6 +136,10 @@ const playSlideMedia = (slide) => {
   if (video) {
     // If data-use-video-audio="true", use the video's audio, otherwise mute it
     video.muted = !useVideoAudio;
+
+    // Add ended event listener for auto-advance
+    video.addEventListener('ended', handleVideoEnded);
+
     video.play();
   }
 
@@ -130,6 +153,51 @@ const playSlideMedia = (slide) => {
   }
 };
 
+// Handle video ended - automatically advance to next slide
+const handleVideoEnded = (e) => {
+  const video = e.target;
+  const currentSlide = document.querySelector('.current');
+  const videoSlide = video.closest('.slide');
+
+  // Only advance if this video is on the current slide
+  if (videoSlide === currentSlide) {
+    // Remove the event listener to prevent duplicate calls
+    video.removeEventListener('ended', handleVideoEnded);
+    // Automatically advance to next slide
+    nextSlide();
+  }
+};
+
+// Show play/pause indicator
+const showPlayPauseIndicator = (text) => {
+  // Clear any existing timeout
+  if (playPauseTimeout) {
+    clearTimeout(playPauseTimeout);
+  }
+
+  // Update text and show indicator
+  playPauseIndicator.textContent = text;
+  playPauseIndicator.classList.remove('hide');
+  playPauseIndicator.classList.add('show');
+
+  // Hide after 2 seconds
+  playPauseTimeout = setTimeout(() => {
+    playPauseIndicator.classList.remove('show');
+    playPauseIndicator.classList.add('hide');
+  }, 2000);
+};
+
+// Handle video play/pause toggle
+const toggleVideoPlayPause = (video) => {
+  if (video.paused) {
+    video.play();
+    showPlayPauseIndicator('Play');
+  } else {
+    video.pause();
+    showPlayPauseIndicator('Pause');
+  }
+};
+
 // Update timeline highlight and progressive reveal based on current slide
 const updateTimeline = () => {
   const currentSlideIndex = Array.from(slides).findIndex(slide => slide.classList.contains('current'));
@@ -140,21 +208,31 @@ const updateTimeline = () => {
     segment.classList.remove('revealed');
   });
 
-  // Add revealed class to all segments up to and including current slide
-  // Add active class only to current slide
+  // Find the timeline segment for current slide (or previous slide if current is excluded)
+  let targetSlideIndex = currentSlideIndex;
+  let currentSegment = slideToSegmentMap.get(targetSlideIndex);
+
+  // If current slide has no timeline segment, find the previous slide that does
+  while (currentSegment === null && targetSlideIndex > 0) {
+    targetSlideIndex--;
+    currentSegment = slideToSegmentMap.get(targetSlideIndex);
+  }
+
+  // Add revealed class to all segments up to and including target slide
+  // Add active class to the target segment
   let activeSegment = null;
   timelineSegments.forEach(segment => {
     const slideIndex = parseInt(segment.getAttribute('data-slide'));
-    if (slideIndex < currentSlideIndex) {
+    if (slideIndex < targetSlideIndex) {
       segment.classList.add('revealed');
-    } else if (slideIndex === currentSlideIndex) {
+    } else if (slideIndex === targetSlideIndex) {
       segment.classList.add('active');
       segment.classList.add('revealed');
       activeSegment = segment;
     }
   });
 
-  // Scroll active segment into view
+  // Scroll active segment into view (only if navigating to new segment)
   if (activeSegment) {
     const timelineContainer = document.querySelector('.timeline-container');
     if (timelineContainer) {
@@ -386,9 +464,27 @@ prevButton.addEventListener("click", () => {
   prevSlide();
 });
 
-// Click on phone/slider to advance
-slider.addEventListener("click", () => {
-  nextSlide();
+// Click on phone/slider to advance (or play/pause video)
+slider.addEventListener("click", (e) => {
+  const currentSlide = document.querySelector('.current');
+  const video = currentSlide.querySelector('video');
+
+  // If current slide has a video and user clicked on/near the video, toggle play/pause
+  if (video) {
+    toggleVideoPlayPause(video);
+  } else {
+    // For image slides, advance normally
+    nextSlide();
+  }
+});
+
+// Keyboard navigation with arrow keys
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    nextSlide();
+  } else if (e.key === "ArrowLeft") {
+    prevSlide();
+  }
 });
 
 // Pause video/audio when slider is not in view
