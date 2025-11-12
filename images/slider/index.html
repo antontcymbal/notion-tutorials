@@ -24,49 +24,84 @@
       <!-- Slider inside the phone screen -->
       <!--
         For image slides:
-        <div class="slide" data-title="Title" data-description="Description" data-tap-x="50%" data-tap-y="50%">
+        <div class="slide"
+          data-title="Title"
+          data-description="Description"
+          data-tap-x="50%"
+          data-tap-y="50%"
+          data-timeline-label="Timeline Label"
+          data-timeline-duration="2 min"
+          data-timeline-stage="meditation">
           <img src="slider-screens/image.webp" alt="Slide description">
         </div>
 
         For video slides:
 
         Option 1: Video with separate audio (video will be muted)
-        <div class="slide" data-title="Title" data-description="Description" data-tap-x="50%" data-tap-y="50%" data-audio="slider-screens/audio.mp3">
+        <div class="slide"
+          data-title="Title"
+          data-description="Description"
+          data-tap-x="50%"
+          data-tap-y="50%"
+          data-audio="slider-screens/audio.mp3"
+          data-timeline-label="Timeline Label"
+          data-timeline-duration="2 min"
+          data-timeline-stage="preparation">
           <video src="slider-screens/video.webm" loop playsinline></video>
         </div>
 
         Option 2: Video with its own audio (add data-use-video-audio="true")
-        <div class="slide" data-title="Title" data-description="Description" data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true">
+        <div class="slide"
+          data-title="Title"
+          data-description="Description"
+          data-tap-x="50%"
+          data-tap-y="50%"
+          data-use-video-audio="true"
+          data-timeline-label="Timeline Label"
+          data-timeline-duration="2 min"
+          data-timeline-stage="meditation">
           <video src="slider-screens/video.webm" loop playsinline></video>
         </div>
+
+        Timeline data attributes:
+        - data-timeline-label: Text shown in the timeline for this slide
+        - data-timeline-duration: Duration text (e.g., "2 min", "12-15 min") - affects segment width
+        - data-timeline-stage: Stage type for color coding:
+          * "intro" - Light blue (#B8D4D9) - Opening/warmup activities
+          * "preparation" - Light green (#A8D5A8) - Setup, optional preparation
+          * "meditation" - Light coral (#E8A398) - Core meditation practice
+          * "additional" - Light plum (#DDA0DD) - Extra/optional activities
+          * "outro" - Light gold (#FFD9A0) - Closing, reflection
       -->
       <div class="slider">
-        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%">
+        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%" data-timeline-label="Kundalini - Bandhan" data-timeline-duration="" data-timeline-stage="intro">
           <img src="slider-screens/1.webp" alt="Slide 1">
         </div>
-        <div class="slide" data-title="They select &quot;personalised meditation&quot;" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%">
+        <div class="slide" data-title="They select personalised meditation" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%" data-timeline-label="Kundalini - Bandhan" data-timeline-duration="" data-timeline-stage="intro">
           <img src="slider-screens/2.webp" alt="Slide 2">
         </div>
-        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select &quot;can't wake up / lethargic&quot;" data-tap-x="35%" data-tap-y="58%">
+        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
           <img src="slider-screens/3.webp" alt="Slide 3">
         </div>
-        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%">
+        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
           <img src="slider-screens/4.webp" alt="Slide 4">
         </div>
-        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%">
+        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%" data-timeline-label="Main meditation (emoji-based)" data-timeline-duration="2 min" data-timeline-stage="meditation">
           <img src="slider-screens/5.webp" alt="Slide 5">
         </div>
-        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="85%">
+        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Main meditation (emoji-based)" data-timeline-duration="2 min" data-timeline-stage="meditation">
           <img src="slider-screens/6.webp" alt="Slide 6">
         </div>
-        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="85%">
+        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="85%" data-timeline-label="Vibes check: &quot;what do you feel?&quot;" data-timeline-duration="2-7 min" data-timeline-stage="meditation">
           <img src="slider-screens/7.webp" alt="Slide 7">
         </div>
-        <div class="slide" data-title="Meditation now begins!" data-description="This part of the meditation is based on the emoji they selected - the state of our seeker." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true">
+        <div class="slide" data-title="Meditation now begins!" data-description="This part of the meditation is based on the emoji they selected - the state of our seeker." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Vibes check: &quot;what do you feel?&quot;" data-timeline-duration="2-7 min" data-timeline-stage="meditation">
           <video src="slider-screens/8.webm" loop playsinline></video>
         </div>
+        <div class="slide" data-title="Now we ask what the seeker is feeling on their hands" data-description="For them it appears like a continuation of the meditation, not a separate part of the experience." data-tap-x="50%" data-tap-y="50%" data-use-video-audio="true" data-timeline-label="Meditation bits based on user's selection" data-timeline-duration="" data-timeline-stage="meditation">
+          <video src="slider-screens/9.webm" loop playsinline></video>
+        </div>
       </div>
-
       <!-- Tap indicator -->
       <div class="tap-indicator"></div>
     </div>
@@ -79,6 +114,17 @@
           <i class="fas fa-arrow-right"></i>
         </button>
         <span class="click-text">click to<br>proceed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-wrapper">
+    <div class="timeline-gradient-left"></div>
+    <div class="timeline-gradient-right"></div>
+    <div class="timeline-container">
+      <div class="timeline-track" id="timeline-track">
+        <!-- Timeline segments will be dynamically generated -->
       </div>
     </div>
   </div>
