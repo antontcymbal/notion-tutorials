@@ -31,6 +31,7 @@
           data-tap-y="50%"
           data-timeline-label="Timeline Label"
           data-timeline-duration="2 min"
+          data-timeline-width="150px"
           data-timeline-stage="meditation">
           <img src="slider-screens/image.webp" alt="Slide description">
         </div>
@@ -64,8 +65,9 @@
         </div>
 
         Timeline data attributes:
-        - data-timeline-label: Text shown in the timeline for this slide
-        - data-timeline-duration: Duration text (e.g., "2 min", "12-15 min") - affects segment width
+        - data-timeline-label: Text shown in the timeline for this slide (supports HTML like <br> for line breaks)
+        - data-timeline-duration: Duration text (e.g., "2 min", "12-15 min") shown below the label
+        - data-timeline-width: Optional custom width (e.g., "200px"). If not set, width auto-calculates as text width + 40px
         - data-timeline-stage: Stage type for color coding:
           * "intro" - Light blue (#B8D4D9) - Opening/warmup activities
           * "preparation" - Light green (#A8D5A8) - Setup, optional preparation
@@ -74,13 +76,13 @@
           * "outro" - Light gold (#FFD9A0) - Closing, reflection
       -->
       <div class="slider">
-        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%" data-timeline-label="Kundalini - Bandhan" data-timeline-duration="" data-timeline-stage="intro">
+        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%" data-timeline-label="Start" data-timeline-duration="" data-timeline-stage="intro">
           <img src="slider-screens/1.webp" alt="Slide 1">
         </div>
-        <div class="slide" data-title="They select personalised meditation" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%" data-timeline-label="Kundalini - Bandhan" data-timeline-duration="" data-timeline-stage="intro">
+        <div class="slide" data-title="They select personalised meditation" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%" data-timeline-label="Select &quot;Personilised&quot;" data-timeline-duration="" data-timeline-stage="intro">
           <img src="slider-screens/2.webp" alt="Slide 2">
         </div>
-        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
+        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select can't wake up / <br>lethargic" data-tap-x="35%" data-tap-y="58%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
           <img src="slider-screens/3.webp" alt="Slide 3">
         </div>
         <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%" data-timeline-label="Prepare your footsoak (optional)" data-timeline-duration="12-15 min" data-timeline-stage="preparation">
