@@ -2,9 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Bebas+Neue" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>greeting2</title>
 
     <style>
 
@@ -38,10 +40,11 @@ h1 {
 .card {
     padding: 10px 25px 10px 25px;
     border-radius: 10px;
-    background: #009688;
+    background: #553c4e;
+    width: 85vw;
     color: #fff;
     display: inline-block;
-    box-shadow: 2px 2px 1px 0px #295C7B;
+    box-shadow: 2px 2px 1px 0px #330835;
 }
 
 .card:hover {
@@ -50,15 +53,14 @@ h1 {
 }
 
 .clock {
-    display: inline-block;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 1.2em;
-    /* padding-left: 20px; */
+    display: inline;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2em;
+   
 }
 
 .time {
-    display: inline-block;
+    display: inline;
     min-width: 37px;
 }
 
@@ -68,19 +70,18 @@ h1 {
 }
 
 .date {
-    display: block;
+    display: inline;
     min-width: 162px;
-    /* padding-right: 30px; */
-    /* border-right: 2px solid #295C7B; */
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2em;
+    padding-right: 30px;
 }
 .greet{
     
-    min-width: 162px;
-    /* padding-right: 30px; */
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
+    display:inline;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+     padding-right: 30px;
 }
 
     </style>
@@ -147,6 +148,7 @@ if (hour > 12) {
     return hour
 }
 }
+    
 // adds zero infront of single digit number
 function zeros(num) {
 if (num < 10) {
