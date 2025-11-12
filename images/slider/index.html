@@ -87,7 +87,8 @@
       opacity: 1;
     }
 
-    .slide img {
+    .slide img,
+    .slide video {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
@@ -106,6 +107,11 @@
       pointer-events: none;
     }
 
+    .next-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
     .buttons-wrapper button {
       position: relative;
       pointer-events: all;
@@ -119,6 +125,9 @@
       font-size: 16px;
       transition: all 0.3s ease;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .buttons-wrapper button:hover {
@@ -161,6 +170,10 @@
       animation: pulse-ring 2s ease-out infinite;
     }
 
+    #next.first-slide::before {
+      border-color: #9ACD32;
+    }
+
     /* Remove animation when clicked */
     #next.clicked {
       animation: none;
@@ -192,7 +205,7 @@
 
     /* Slide description text */
     .slide-description {
-      max-width: 300px;
+      max-width: 340px;
       font-family: 'Raleway', sans-serif;
       color: #333333;
       flex-shrink: 0;
@@ -218,6 +231,43 @@
       text-align: left;
     }
 
+    /* Finger tap animation */
+    .tap-indicator {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(128, 128, 128, 0.3);
+      border: 3px solid rgba(128, 128, 128, 0.6);
+      pointer-events: none;
+      z-index: 15;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: all 0.4s ease;
+    }
+
+    .tap-indicator.active {
+      opacity: 1;
+    }
+
+    .tap-indicator.tapping {
+      background-color: rgba(128, 128, 128, 0.5);
+      border-color: rgba(128, 128, 128, 0.8);
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    @keyframes tap-pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
     @media (max-width: 1200px) {
       .content-wrapper {
         gap: 40px;
@@ -232,45 +282,94 @@
       }
 
       .slide-description p {
-        font-size: 14px;
+        font-size: 16px;
       }
     }
 
     @media (max-width: 768px) {
       body {
-        gap: 20px;
+        gap: 16px;
+        padding: 40px 16px 16px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 100vh;
       }
 
       .content-wrapper {
         flex-direction: column;
-        gap: 30px;
+        gap: 12px;
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+        position: relative;
       }
 
       .mockup-container {
-        width: 300px;
-        height: 650px;
+        width: min(280px, calc(100% - 100px));
+        aspect-ratio: 375 / 812;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      .buttons-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% - 16px);
+        display: flex;
+        justify-content: space-between;
+        z-index: 20;
+        pointer-events: none;
       }
 
       .buttons-wrapper button {
-        padding: 8px 10px;
-        font-size: 12px;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        font-size: 14px;
+        pointer-events: all;
+      }
+
+      .next-wrapper {
+        position: relative;
+        display: inline-block;
       }
 
       .click-text {
-        font-size: 12px;
-        bottom: -25px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -34px;
+        font-size: 10px;
+        line-height: 1.2;
+        white-space: nowrap;
       }
 
       .slide-description {
-        max-width: 300px;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 16px;
+        text-align: center;
+        align-items: center;
       }
 
       .slide-description h2 {
-        font-size: 20px;
+        font-size: 16px;
+        text-align: center;
+        margin: 0 0 8px 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
 
       .slide-description p {
-        font-size: 14px;
+        font-size: 13px;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
     }
   </style>
@@ -280,8 +379,8 @@
   <div class="content-wrapper">
     <!-- Slide description text -->
     <div class="slide-description">
-      <h2 id="description-title">Welcome to the meditation app</h2>
-      <p id="description-paragraph">Start your journey to inner peace with guided meditations.</p>
+      <h2 id="description-title">User opens their phone in the morning</h2>
+      <p id="description-paragraph">They decide to proceed with "select meditation" button on the home screen</p>
     </div>
 
     <div class="mockup-container">
@@ -289,36 +388,53 @@
       <div class="iphone-frame"></div>
 
       <!-- Slider inside the phone screen -->
+      <!--
+        For video slides with audio:
+        - Replace <img> with <video> element
+        - Add data-audio="path/to/audio.mp3" attribute to the slide div
+        - Video will be muted automatically, and the audio will play separately
+
+        Example:
+        <div class="slide" data-title="Video Slide" data-description="Description" data-tap-x="50%" data-tap-y="50%" data-audio="slider-screens/audio.mp3">
+          <video src="slider-screens/video.mp4" loop></video>
+        </div>
+      -->
       <div class="slider">
-        <div class="slide current" data-title="Welcome to the meditation app" data-description="Start your journey to inner peace with guided meditations.">
+        <div class="slide current" data-title="User opens their phone in the morning" data-description="They decide to proceed with 'select meditation' button on the home screen" data-tap-x="54%" data-tap-y="52%">
           <img src="slider-screens/1.png" alt="Slide 1">
         </div>
-        <div class="slide" data-title="Choose from various meditation styles" data-description="Explore different techniques to find what works best for you.">
+        <div class="slide" data-title="They select &quot;personalised meditation&quot;" data-description="They have a bit more time today, and they generally value a personalised experience" data-tap-x="60%" data-tap-y="55%">
           <img src="slider-screens/2.png" alt="Slide 2">
         </div>
-        <div class="slide" data-title="Track your meditation progress" data-description="Monitor your daily practice and see your growth over time.">
+        <div class="slide" data-title="The are feeling very sluggish today" data-description="So they select &quot;can't wake up / lethargic&quot;" data-tap-x="35%" data-tap-y="58%">
           <img src="slider-screens/3.png" alt="Slide 3">
         </div>
-        <div class="slide" data-title="Guided sessions for all levels" data-description="From beginner to advanced, find sessions that match your experience.">
+        <div class="slide" data-title="This tells us which meditation to start with" data-description="We will start by clearing their left side and activating their right side" data-tap-x="55%" data-tap-y="95%">
           <img src="slider-screens/4.png" alt="Slide 4">
         </div>
-        <div class="slide" data-title="Customize your practice" data-description="Adjust session length, background sounds, and meditation focus.">
+        <div class="slide" data-title="We explain there is more to come" data-description="And they can select their music." data-tap-x="55%" data-tap-y="95%">
           <img src="slider-screens/5.png" alt="Slide 5">
         </div>
-        <div class="slide" data-title="Find peace in your daily routine" data-description="Build a consistent meditation habit that fits your lifestyle.">
+        <div class="slide" data-title="For some meditations we will offer treatments" data-description="In this case we could have offered candle treatment actually." data-tap-x="55%" data-tap-y="85%">
           <img src="slider-screens/6.png" alt="Slide 6">
         </div>
+        <div class="slide" data-title="Last thing: we tell them we will be asking about their vibrations" data-description="There's a video that explains this in a bit more detail - it will play by default first time they go through this experience." data-tap-x="55%" data-tap-y="85%">
+          <img src="slider-screens/7.png" alt="Slide 7">
+        </div>
       </div>
+
+      <!-- Tap indicator -->
+      <div class="tap-indicator"></div>
     </div>
 
     <!-- Navigation buttons -->
     <div class="buttons-wrapper">
       <button id="prev"><i class="fas fa-arrow-left"></i></button>
-      <div style="position: relative; display: inline-block;">
+      <div class="next-wrapper">
         <button id="next">
           <i class="fas fa-arrow-right"></i>
         </button>
-        <span class="click-text">click to<br>explore</span>
+        <span class="click-text">click to<br>proceed</span>
       </div>
     </div>
   </div>
@@ -330,7 +446,43 @@
     const clickText = document.querySelector(".click-text");
     const descriptionTitle = document.getElementById("description-title");
     const descriptionParagraph = document.getElementById("description-paragraph");
-    let hasClicked = false;
+    const tapIndicator = document.querySelector(".tap-indicator");
+    const slider = document.querySelector(".slider");
+    let isAnimating = false;
+    let currentAudio = null;
+
+    // Stop all media (video and audio) on a slide
+    const stopSlideMedia = (slide) => {
+      const video = slide.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+    };
+
+    // Play media (video and audio) on a slide
+    const playSlideMedia = (slide) => {
+      const video = slide.querySelector('video');
+      const audioSrc = slide.getAttribute('data-audio');
+
+      if (video) {
+        video.muted = true; // Always mute the video
+        video.play();
+      }
+
+      if (audioSrc) {
+        if (!currentAudio) {
+          currentAudio = new Audio();
+        }
+        currentAudio.src = audioSrc;
+        currentAudio.play();
+      }
+    };
 
     const updateDescription = () => {
       const current = document.querySelector(".current");
@@ -342,10 +494,66 @@
       if (descriptionParagraph && description) {
         descriptionParagraph.textContent = description;
       }
+
+      // Toggle first-slide class for green ring on first slide
+      if (current === slides[0]) {
+        nextButton.classList.add("first-slide");
+      } else {
+        nextButton.classList.remove("first-slide");
+      }
+
+      // Play media on current slide
+      playSlideMedia(current);
     };
 
-    const nextSlide = () => {
+    const animateTap = (tapX, tapY) => {
+      return new Promise((resolve) => {
+        // Get slider dimensions
+        const sliderRect = slider.getBoundingClientRect();
+
+        // Calculate position relative to slider
+        const x = sliderRect.width * (parseFloat(tapX) / 100);
+        const y = sliderRect.height * (parseFloat(tapY) / 100);
+
+        // Position the tap indicator
+        tapIndicator.style.left = x + 'px';
+        tapIndicator.style.top = y + 'px';
+
+        // Show the indicator
+        tapIndicator.classList.add('active');
+
+        // After moving to position, show tap effect
+        setTimeout(() => {
+          tapIndicator.classList.add('tapping');
+
+          // Remove tap effect and hide indicator
+          setTimeout(() => {
+            tapIndicator.classList.remove('tapping');
+
+            setTimeout(() => {
+              tapIndicator.classList.remove('active');
+              resolve();
+            }, 200);
+          }, 300);
+        }, 400);
+      });
+    };
+
+    const nextSlide = async () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
       const current = document.querySelector(".current");
+      const tapX = current.getAttribute("data-tap-x");
+      const tapY = current.getAttribute("data-tap-y");
+
+      // Animate tap on current slide
+      await animateTap(tapX, tapY);
+
+      // Stop media on current slide
+      stopSlideMedia(current);
+
+      // Transition to next slide
       current.classList.remove("current");
       if (current.nextElementSibling) {
         current.nextElementSibling.classList.add("current");
@@ -353,10 +561,19 @@
         slides[0].classList.add("current");
       }
       updateDescription();
+      isAnimating = false;
     };
 
     const prevSlide = () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
       const current = document.querySelector(".current");
+
+      // Stop media on current slide
+      stopSlideMedia(current);
+
+      // Transition to previous slide (no tap animation for prev)
       current.classList.remove("current");
       if (current.previousElementSibling) {
         current.previousElementSibling.classList.add("current");
@@ -364,21 +581,24 @@
         slides[slides.length - 1].classList.add("current");
       }
       updateDescription();
+      isAnimating = false;
     };
 
     nextButton.addEventListener("click", () => {
       nextSlide();
-
-      // Remove animation after first click (keep text visible)
-      if (!hasClicked) {
-        nextButton.classList.add("clicked");
-        hasClicked = true;
-      }
     });
 
     prevButton.addEventListener("click", () => {
       prevSlide();
     });
+
+    // Click on phone/slider to advance
+    slider.addEventListener("click", () => {
+      nextSlide();
+    });
+
+    // Initialize on page load
+    updateDescription();
   </script>
 </body>
 
